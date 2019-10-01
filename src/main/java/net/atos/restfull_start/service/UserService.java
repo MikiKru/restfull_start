@@ -9,7 +9,8 @@ import net.atos.restfull_start.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -35,6 +36,17 @@ public class UserService {
             return userRepository.save(user);
         }
         return null;
-
     }
+    // metoda usuwająca użytkownika po id
+    public void deleteUserById(Long user_id){
+        userRepository.deleteById(user_id);
+    }
+    // metoda pobierająca wszystkich użytkowników posortowanych po loginie
+    public List<User> getAllUsersSortedByLogin(){
+        return userRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(User::getLogin))
+                .collect(Collectors.toList());
+    }
+
 }
