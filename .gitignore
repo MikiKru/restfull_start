@@ -1,4 +1,6 @@
-<<<<<<< HEAD
+### Nie sledz konfiguracji ###
+application.properties
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -30,7 +32,6 @@ build/
 
 ### VS Code ###
 .vscode/
-=======
 # Compiled class file
 *.class
 
