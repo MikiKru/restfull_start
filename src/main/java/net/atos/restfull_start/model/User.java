@@ -1,6 +1,7 @@
 package net.atos.restfull_start.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,6 @@ public class User {
 //    private RoleEnum role = RoleEnum.ROLE_USER;
     @Transient                                          // wykluczenie w mapowaniu pola
     private String token = "secret token";
-
     @ManyToMany                                                     // utworzenie relacji n : m
     @JoinTable(
             name = "user_role",                                     // nazwa tabeli
@@ -39,6 +39,9 @@ public class User {
             inverseJoinColumns =  @JoinColumn(name = "role_id")     // nazwa klucza obcego role_id
     )      // utworzenie tabelki relacyjnej o określonej nazwie i kolumnach
     private Set<Role> roles = new HashSet<>();
+
+
+
 
     public User(String login, String password) {
         this.login = login;
