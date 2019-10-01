@@ -17,4 +17,7 @@ public class RoleService {
     public Role addRole(RoleDto roleDto){
         return roleRepository.save(new Role(roleDto.getRole()));
     }
+    public Role getRoleById(Long role_id){
+        return roleRepository.getOne(role_id);
+    }
 }

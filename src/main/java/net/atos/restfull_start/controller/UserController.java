@@ -3,6 +3,7 @@ package net.atos.restfull_start.controller;
 import lombok.AllArgsConstructor;
 import net.atos.restfull_start.model.User;
 import net.atos.restfull_start.model.dtos.UserDto;
+import net.atos.restfull_start.service.RoleService;
 import net.atos.restfull_start.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,29 @@ import java.util.*;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
     /*
     1. DELETE -> usuń użytkownika
     2. Wypisz wszystkich użytkowników posortowanych po loginie
     --------------------------------------------------------------
     3. Wypisz użytkowników posiadających role ROLE_ADMIN
-    4. Wypisz użytkowników aktywnych i posiadających rolę ROLE_USER
+    4. Wypisz użytkowników aktywnych posotrotwany po dacie rejestracji
      */
+    @GetMapping("/userswithrole")
+    public List<User> getUsersWithRole(@RequestParam Long role_id){
+        // szukamy roli zidentyfikowanej po id, która jest dodana do listy ról
+        return userService.getUsersWithRole(
+                new ArrayList<>(Arrays.asList(roleService.getRoleById(role_id))));
+    }
+    @GetMapping("/users/ordered")
+    public List<User> getUsersOrderedByLogin(){
+        return userService.getAllUsersOrderByLogin();
+    }
+    @GetMapping("/users/active")
+    public List<User> getActiveUsers(){
+        return userService.getUsersWithStatusOrderedByregisterDate(true);
+    }
     @GetMapping("/users")
     public List<User> getAllUsersSortedByLogin(){
         return userService.getAllUsersSortedByLogin();
