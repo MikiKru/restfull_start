@@ -44,4 +44,7 @@ public class User {
         this.login = login;
         this.password = password;
     }
+    public void addRole(Role role){
+        this.roles.add(role);
+    }
 }
