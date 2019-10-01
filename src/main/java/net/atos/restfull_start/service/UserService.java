@@ -48,8 +48,8 @@ public class UserService {
                 .sorted(Comparator.comparing(User::getLogin))
                 .collect(Collectors.toList());
     }
-    public List<User> getUsersWithRole(List<Role> roles){
-        return userRepository.findAllByRolesIn(roles);
+    public List<User> getUsersWithRole(List<Role> role){
+        return userRepository.findAllByRoles(role);
     }
     public List<User> getAllUsersOrderByLogin(){
         return userRepository.findAllByLoginLikeOrderByLogin("%");

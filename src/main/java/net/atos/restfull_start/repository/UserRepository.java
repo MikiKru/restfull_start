@@ -10,7 +10,7 @@ import java.util.List;
 @Repository                             // <nazwa encji, typ klucza głównego>
 public interface UserRepository extends JpaRepository<User, Long> {
     // SELECT * FROM user WHERE role = 'ROLE_ADMIN'
-    List<User> findAllByRolesIn(List<Role> role);
+    List<User> findAllByRoles(List<Role> role);
     // SELECT * FROM user ORDER BY login
     List<User> findAllByLoginLikeOrderByLogin(String login);
     // SELECT * FROM user WHERE status = true ORDER BY registerDate

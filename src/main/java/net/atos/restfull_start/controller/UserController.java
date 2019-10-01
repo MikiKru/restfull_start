@@ -29,7 +29,8 @@ public class UserController {
     public List<User> getUsersWithRole(@RequestParam Long role_id){
         // szukamy roli zidentyfikowanej po id, która jest dodana do listy ról
         return userService.getUsersWithRole(
-                new ArrayList<>(Arrays.asList(roleService.getRoleById(role_id))));
+                new ArrayList<>(Arrays.asList(roleService.getRoleById(role_id)))
+        );
     }
     @GetMapping("/users/ordered")
     public List<User> getUsersOrderedByLogin(){
