@@ -13,9 +13,6 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-//    @Autowired
-//    private RoleRepository roleRepository;
-
 
     public User addUser(UserDto userDto){
         // save() -> insert into user values (?,?)

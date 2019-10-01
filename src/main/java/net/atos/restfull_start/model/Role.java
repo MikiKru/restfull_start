@@ -18,5 +18,9 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long role_id;
-    private RoleEnum role;
+    private String role;
+
+    public Role(String role) {
+        this.role = role;
+    }
 }
