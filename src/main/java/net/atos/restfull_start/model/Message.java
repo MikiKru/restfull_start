@@ -1,15 +1,13 @@
 package net.atos.restfull_start.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,7 +25,10 @@ public class Message {
     public Message(String content) {
         this.content = content;
     }
-    
+    @JsonIgnore                     // zignorowanie pola w api
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
 

@@ -10,8 +10,9 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity                     // mapowanie ORM
 @Table(name = "user_table") // określenie nazwy tabeli w SQL
@@ -32,6 +33,7 @@ public class User {
 //    private RoleEnum role = RoleEnum.ROLE_USER;
     @Transient                                          // wykluczenie w mapowaniu pola
     private String token = "secret token";
+    //-----------------------------------------------------------------------
     @ManyToMany                                                     // utworzenie relacji n : m
     @JoinTable(
             name = "user_role",                                     // nazwa tabeli
@@ -39,8 +41,14 @@ public class User {
             inverseJoinColumns =  @JoinColumn(name = "role_id")     // nazwa klucza obcego role_id
     )      // utworzenie tabelki relacyjnej o określonej nazwie i kolumnach
     private Set<Role> roles = new HashSet<>();
-
-
+    // -----------------------------------------------------------------------
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            // mapowanie pola w klasie Message -> nazwa pola
+            mappedBy = "user"
+    )
+    private List<Message> messages = new ArrayList<>();
 
 
     public User(String login, String password) {
