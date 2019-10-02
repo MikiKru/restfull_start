@@ -1,6 +1,7 @@
 package net.atos.restfull_start.service;
 
 import lombok.AllArgsConstructor;
+import net.atos.restfull_start.model.AggregatedValue;
 import net.atos.restfull_start.model.Message;
 import net.atos.restfull_start.model.Role;
 import net.atos.restfull_start.model.User;
@@ -26,6 +27,10 @@ public class UserService {
     private RoleRepository roleRepository;
     @Autowired
     private MessageRepository messageRepository;
+
+    public List<AggregatedValue> getAggregatedValuesNativeQuery(){
+        return messageRepository.getAggregatedValues();
+    }
 
     public List<Message> getAllMessagesCustomQuery(){
         return messageRepository.getAllMessagesQuery();

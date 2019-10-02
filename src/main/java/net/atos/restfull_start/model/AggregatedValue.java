@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AggregatedValue {
-    private Long user_id;
-    private Long message_id;
+    private Integer user_id;
+    private Integer message_id;
 }
