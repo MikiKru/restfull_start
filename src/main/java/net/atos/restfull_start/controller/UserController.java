@@ -92,18 +92,18 @@ public class UserController {
                 // link do wiadomości
                 for (Message message : user.getMessages()){
                     Link messageLink = linkTo(methodOn(UserController.class).getMessageById(message.getMessage_id())).withSelfRel();
-                    user.add(messageLink);
+                    message.add(messageLink);
                 }
                 // link do listy wiadomości
-                Link messageListLink = linkTo(methodOn(UserController.class).getMessagesForUser(user.getUser_id())).withSelfRel();
+                Link messageListLink = linkTo(methodOn(UserController.class).getMessagesForUser(user.getUser_id())).withRel("messageList");
                 user.add(messageListLink);
             }
         }
         Link link = linkTo(methodOn(UserController.class).getAllUsersSortedByLoginHATEOAS()).withSelfRel();
         Resources<User> userResources = new Resources<>(users, link);
-        Link userLink = linkTo(methodOn(UserController.class).getUserByIdHATEOAS(null)).withRel("userLink");
-        Link messageLink = linkTo(methodOn(UserController.class).getMessageById(null)).withRel("messageLink");
-        Link messageListLink = linkTo(methodOn(UserController.class).getMessagesForUser(null)).withSelfRel();
+        Link userLink = linkTo(methodOn(UserController.class).getUserByIdHATEOAS(null)).withRel("userLinkTempl");
+        Link messageLink = linkTo(methodOn(UserController.class).getMessageById(null)).withRel("messageLinkTempl");
+        Link messageListLink = linkTo(methodOn(UserController.class).getMessagesForUser(null)).withRel("messageListTempl");
         userResources.add(userLink);
         userResources.add(messageLink);
         userResources.add(messageListLink);
