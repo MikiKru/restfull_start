@@ -5,6 +5,7 @@ import net.atos.restfull_start.model.Message;
 import net.atos.restfull_start.model.Role;
 import net.atos.restfull_start.model.User;
 import net.atos.restfull_start.model.dtos.UserDto;
+import net.atos.restfull_start.repository.MessageRepository;
 import net.atos.restfull_start.repository.RoleRepository;
 import net.atos.restfull_start.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,18 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private MessageRepository messageRepository;
 
     public User getUserById(Long user_id){
         Optional<User> userOptinal = userRepository.findById(user_id);
         return userOptinal.orElseGet(
                 () -> new User(null, null, null, null, null, null, null, null));
+    }
+    public Message addMessage(String content,Long user_id){
+        Message message=new Message(content);
+        message.setUser(userRepository.getOne(user_id));
+        return messageRepository.save(message);
     }
     public void addMessageByUser(Long user_id, String content){
         Optional<User> userOptional = userRepository.findById(user_id);
@@ -41,6 +49,7 @@ public class UserService {
             userRepository.save(user);
         }
     }
+
     public User addUser(UserDto userDto){
         // save() -> insert into user values (?,?)
         return userRepository.save(new User(userDto.getLogin(), userDto.getPassword()));
