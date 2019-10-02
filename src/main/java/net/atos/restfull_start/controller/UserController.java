@@ -9,6 +9,7 @@ import net.atos.restfull_start.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -71,6 +72,19 @@ public class UserController {
     @GetMapping("/users")
     public List<User> getAllUsersSortedByLogin(){
         return userService.getAllUsersSortedByLogin();
+    }
+    @GetMapping("/users/HATEOAS")
+    public Resources<User> getAllUsersSortedByLoginHATEOAS(){
+        List<User> users = userService.getAllUsersSortedByLogin();
+        for(User user : users){
+            Link userLink = linkTo(methodOn(UserController.class).getUserByIdHATEOAS(user.getUser_id())).withSelfRel();
+            user.add(userLink);
+        }
+        Link link = linkTo(methodOn(UserController.class).getAllUsersSortedByLoginHATEOAS()).withSelfRel();
+        Resources<User> userResources = new Resources<>(users, link);
+        Link userLink = linkTo(methodOn(UserController.class).getUserByIdHATEOAS(null)).withRel("userLink");
+        userResources.add(userLink);
+        return userResources;
     }
 
 
