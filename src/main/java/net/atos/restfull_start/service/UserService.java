@@ -27,6 +27,14 @@ public class UserService {
     @Autowired
     private MessageRepository messageRepository;
 
+    public List<Message> getMessagesForUser(Long user_id){
+        return userRepository.getOne(user_id).getMessages();
+    }
+
+    public Message getMessageById(Long message_id){
+        return messageRepository.getOne(message_id);
+    }
+
     public User getUserById(Long user_id){
         Optional<User> userOptinal = userRepository.findById(user_id);
         return userOptinal.orElseGet(

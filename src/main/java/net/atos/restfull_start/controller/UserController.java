@@ -73,17 +73,40 @@ public class UserController {
     public List<User> getAllUsersSortedByLogin(){
         return userService.getAllUsersSortedByLogin();
     }
+    @GetMapping("/message/{message_id}")
+    public Message getMessageById(@PathVariable Long message_id){
+           return userService.getMessageById(message_id);
+    }
+    @GetMapping("/user/messages/{user_id}/HATEOAS")
+    public List<Message> getMessagesForUserHATEOAS(@PathVariable Long user_id){
+        return userService.getMessagesForUser(user_id);
+    }
     @GetMapping("/users/HATEOAS")
     public Resources<User> getAllUsersSortedByLoginHATEOAS(){
         List<User> users = userService.getAllUsersSortedByLogin();
         for(User user : users){
+            // link do użytkownika
             Link userLink = linkTo(methodOn(UserController.class).getUserByIdHATEOAS(user.getUser_id())).withSelfRel();
             user.add(userLink);
+            if(user.getMessages().size() > 0){
+                // link do wiadomości
+                for (Message message : user.getMessages()){
+                    Link messageLink = linkTo(methodOn(UserController.class).getMessageById(message.getMessage_id())).withSelfRel();
+                    user.add(messageLink);
+                }
+                // link do listy wiadomości
+                Link messageListLink = linkTo(methodOn(UserController.class).getMessagesForUser(user.getUser_id())).withSelfRel();
+                user.add(messageListLink);
+            }
         }
         Link link = linkTo(methodOn(UserController.class).getAllUsersSortedByLoginHATEOAS()).withSelfRel();
         Resources<User> userResources = new Resources<>(users, link);
         Link userLink = linkTo(methodOn(UserController.class).getUserByIdHATEOAS(null)).withRel("userLink");
+        Link messageLink = linkTo(methodOn(UserController.class).getMessageById(null)).withRel("messageLink");
+        Link messageListLink = linkTo(methodOn(UserController.class).getMessagesForUser(null)).withSelfRel();
         userResources.add(userLink);
+        userResources.add(messageLink);
+        userResources.add(messageListLink);
         return userResources;
     }
 
