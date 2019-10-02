@@ -1,6 +1,7 @@
 package net.atos.restfull_start.controller;
 
 import lombok.AllArgsConstructor;
+import net.atos.restfull_start.model.Message;
 import net.atos.restfull_start.model.User;
 import net.atos.restfull_start.model.dtos.UserDto;
 import net.atos.restfull_start.service.RoleService;
@@ -25,6 +26,9 @@ public class UserController {
     3. Wypisz użytkowników posiadających role ROLE_ADMIN
     4. Wypisz użytkowników aktywnych posotrotwany po dacie rejestracji
     --------------------------------------------------------------
+    4*. Wyszukaj wiadomości dla użytkownika po user_id
+        -> wyszukaj usera i wykonaj getMessages()
+        -> wyszukaj listę messages gdy pole User należy do szukanejgo user_id
     5. Wyszukaj użytkownika po id
     6. Wyszukaj rolę po id
     7. Wyszukaj wiadomość po id
@@ -36,7 +40,10 @@ public class UserController {
     11. Zmodyfikuj content wiadomości wybranej po id
     12. Sprawdź ile jest wszystkich wiadomości
      */
-
+    @GetMapping("/user/messages/{user_id}")
+    public List<Message> getMessagesForUser(@PathVariable Long user_id){
+        return userService.getUserById(user_id).getMessages();
+    }
 
     @GetMapping("/userswithrole")
     public List<User> getUsersWithRole(@RequestParam Long role_id){

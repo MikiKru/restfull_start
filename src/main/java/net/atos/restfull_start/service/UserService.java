@@ -23,6 +23,15 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    public User getUserById(Long user_id){
+        Optional<User> userOptinal = userRepository.findById(user_id);
+        if(userOptinal.isPresent()){
+            return userOptinal.get();
+        }
+        return new User(null, null, null,null,null,null,null,null);
+    }
+
+
     public User addUser(UserDto userDto){
         // save() -> insert into user values (?,?)
         return userRepository.save(new User(userDto.getLogin(), userDto.getPassword()));
