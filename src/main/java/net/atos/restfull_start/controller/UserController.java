@@ -39,7 +39,18 @@ public class UserController {
     10. Wyszukaj wiadomości stronicowane tj,  druga strona i stronicowanie co 2 szt
     11. Zmodyfikuj content wiadomości wybranej po id
     12. Sprawdź ile jest wszystkich wiadomości
+    13. Sprawdź ile wiadomości napisał każdy z userów
      */
+    @GetMapping("/messages")
+    public List<Message> getAllMessages(){
+        return userService.getAllMessages();
+    }
+    @GetMapping("/messages/page")
+    public List<Message> getPagingMessages(
+            @RequestParam int page, @RequestParam int size){
+        return userService.getPagingMessages(page,size);
+    }
+
     @GetMapping("/user/messages/{user_id}")
     public List<Message> getMessagesForUser(@PathVariable Long user_id){
         return userService.getUserById(user_id).getMessages();

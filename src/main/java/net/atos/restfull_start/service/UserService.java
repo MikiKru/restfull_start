@@ -27,6 +27,16 @@ public class UserService {
     @Autowired
     private MessageRepository messageRepository;
 
+
+    public List<Message> getAllMessages(){
+        return messageRepository.findAll();
+    }
+    // stronicowanie wiadomości
+    public List<Message> getPagingMessages(int page, int size){
+        Page<Message> messagesPage = messageRepository.findAll(PageRequest.of(page,size));
+        return messagesPage.getContent();
+    }
+
     public User getUserById(Long user_id){
         Optional<User> userOptinal = userRepository.findById(user_id);
         return userOptinal.orElseGet(
