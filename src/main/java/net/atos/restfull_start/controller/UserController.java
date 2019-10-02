@@ -12,6 +12,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -19,14 +20,16 @@ import java.util.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-@RequestMapping(value = "/api")
-@RestController
+@RequestMapping(value = "/api/v1/", produces = "application/hal+json")
+@RestController("userControllerV1")
 @AllArgsConstructor
 public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private RoleController roleController;
     /*
     1. DELETE -> usuń użytkownika
     2. Wypisz wszystkich użytkowników posortowanych po loginie
@@ -49,11 +52,18 @@ public class UserController {
     12. Sprawdź ile jest wszystkich wiadomości
     13. Sprawdź ile wiadomości napisał każdy z userów
      */
-    @GetMapping("/user/{user_id}")
+    @GetMapping("/nativeQuery/messages")
+    public List<Message> getAllMessagesNativeQuery(){
+        return userService.getAllMessagesCustomQuery();
+    }
+
+    // produkujemy format JSON
+    @GetMapping(value = "/user/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserById(@PathVariable Long user_id){
         return userService.getUserById(user_id);
     }
-    @GetMapping(value = "/user/{user_id}/HATEOAS", produces = "application/hal+json")
+    // produkujemy format hal+json
+    @GetMapping(value = "/user/{user_id}")
     public Resource<User> getUserByIdHATEOAS(@PathVariable Long user_id){
         User user = userService.getUserById(user_id);
         // ręczna konfiguracja lików
@@ -101,8 +111,9 @@ public class UserController {
             }
             if(user.getRoles().size() > 0){
                 for(Role role : user.getRoles()){
-                    System.out.println(role.getRole_id());
-                    role.add(linkTo(methodOn(RoleController.class).getRoleById(role.getRole_id())).withSelfRel());
+                    Link rolesLink = linkTo(methodOn(RoleController.class).getRoleById(role.getRole_id())).withSelfRel();
+                    if(!role.getLinks().contains(rolesLink))
+                        role.add(rolesLink);
                 }
             }
         }

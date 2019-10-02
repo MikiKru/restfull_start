@@ -32,7 +32,7 @@ public class User extends ResourceSupport {             // klasa rozszerzająca 
     @Transient                                          // wykluczenie w mapowaniu pola
     private String token = "secret token";
     //-----------------------------------------------------------------------
-    @ManyToMany                                                     // utworzenie relacji n : m
+    @ManyToMany(cascade = CascadeType.MERGE)   // utworzenie relacji n : m
     @JoinTable(
             name = "user_role",                                     // nazwa tabeli
             joinColumns = @JoinColumn(name = "user_id"),            // nazwa klucza obcego user_id

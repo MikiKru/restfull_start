@@ -27,6 +27,9 @@ public class UserService {
     @Autowired
     private MessageRepository messageRepository;
 
+    public List<Message> getAllMessagesCustomQuery(){
+        return messageRepository.getAllMessagesQuery();
+    }
     public List<Message> getMessagesForUser(Long user_id){
         return userRepository.getOne(user_id).getMessages();
     }
