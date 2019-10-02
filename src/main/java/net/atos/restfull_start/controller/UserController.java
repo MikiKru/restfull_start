@@ -101,6 +101,7 @@ public class UserController {
             }
             if(user.getRoles().size() > 0){
                 for(Role role : user.getRoles()){
+                    System.out.println(role.getRole_id());
                     role.add(linkTo(methodOn(RoleController.class).getRoleById(role.getRole_id())).withSelfRel());
                 }
             }

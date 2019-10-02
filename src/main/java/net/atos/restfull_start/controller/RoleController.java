@@ -19,8 +19,9 @@ public class RoleController {
     public Role addRole(@RequestParam String role){
         return roleService.addRole(new RoleDto(role));
     }
-    @GetMapping("/role/{role_id}")
+    @GetMapping("/role/user/{role_id}")
     public Role getRoleById(@PathVariable Long role_id){
         return roleService.getRoleById(role_id);
     }
+
 }
