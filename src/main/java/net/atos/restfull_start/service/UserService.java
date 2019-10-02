@@ -33,12 +33,14 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(user_id);
         if(userOptional.isPresent()){
             User user = userOptional.get();
-            user.addMessage(new Message(content));
+            // ustawienie pole user w obiekci message
+            Message message = new Message(content);
+            message.setUser(user);
+            // dodanie wiadomości do listy messages
+            user.addMessage(message);
             userRepository.save(user);
         }
     }
-
-
     public User addUser(UserDto userDto){
         // save() -> insert into user values (?,?)
         return userRepository.save(new User(userDto.getLogin(), userDto.getPassword()));
