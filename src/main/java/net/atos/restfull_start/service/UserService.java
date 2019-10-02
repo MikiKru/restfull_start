@@ -28,7 +28,7 @@ public class UserService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public List<AggregatedValue> getAggregatedValuesNativeQuery(){
+    public List<String> getAggregatedValuesNativeQuery(){
         return messageRepository.getAggregatedValues();
     }
 

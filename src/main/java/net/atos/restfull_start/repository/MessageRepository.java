@@ -1,6 +1,5 @@
 package net.atos.restfull_start.repository;
 
-import net.atos.restfull_start.model.AggregatedValue;
 import net.atos.restfull_start.model.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +10,6 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
     List<Message> getAllMessagesQuery();
 
     @Query(value = "SELECT user_id, count(*) FROM message GROUP BY user_id", nativeQuery = true)
-    List<AggregatedValue> getAggregatedValues();
+    List<String> getAggregatedValues();
 
 }

@@ -1,7 +1,6 @@
 package net.atos.restfull_start.controller;
 
 import lombok.AllArgsConstructor;
-import net.atos.restfull_start.model.AggregatedValue;
 import net.atos.restfull_start.model.Message;
 import net.atos.restfull_start.model.Role;
 import net.atos.restfull_start.model.User;
@@ -54,7 +53,7 @@ public class UserController {
     13. Sprawdź ile wiadomości napisał każdy z userów
      */
     @GetMapping("/nativeQuery/aggregated")
-    public List<AggregatedValue> getAggregatedValuesNativeQuery(){
+    public List<String> getAggregatedValuesNativeQuery(){
         return userService.getAggregatedValuesNativeQuery();
     }
 
