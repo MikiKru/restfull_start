@@ -44,6 +44,13 @@ public class UserController {
     public List<Message> getMessagesForUser(@PathVariable Long user_id){
         return userService.getUserById(user_id).getMessages();
     }
+    @PostMapping("/user/message/")
+    public ResponseEntity addMessageByUser(
+            @RequestParam Long user_id,
+            @RequestParam String content){
+        userService.addMessageByUser(user_id, content);
+        return ResponseEntity.ok(200);
+    }
 
     @GetMapping("/userswithrole")
     public List<User> getUsersWithRole(@RequestParam Long role_id){

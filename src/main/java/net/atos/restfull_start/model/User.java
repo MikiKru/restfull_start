@@ -47,6 +47,9 @@ public class User {
     )
     private List<Message> messages = new ArrayList<>();
 
+    public void addMessage(Message message){
+        this.messages. add(message);
+    }
 
     public User(String login, String password) {
         this.login = login;

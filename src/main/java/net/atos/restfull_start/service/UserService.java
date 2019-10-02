@@ -1,6 +1,7 @@
 package net.atos.restfull_start.service;
 
 import lombok.AllArgsConstructor;
+import net.atos.restfull_start.model.Message;
 import net.atos.restfull_start.model.Role;
 import net.atos.restfull_start.model.User;
 import net.atos.restfull_start.model.dtos.UserDto;
@@ -25,10 +26,16 @@ public class UserService {
 
     public User getUserById(Long user_id){
         Optional<User> userOptinal = userRepository.findById(user_id);
-        if(userOptinal.isPresent()){
-            return userOptinal.get();
+        return userOptinal.orElseGet(
+                () -> new User(null, null, null, null, null, null, null, null));
+    }
+    public void addMessageByUser(Long user_id, String content){
+        Optional<User> userOptional = userRepository.findById(user_id);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            user.addMessage(new Message(content));
+            userRepository.save(user);
         }
-        return new User(null, null, null,null,null,null,null,null);
     }
 
 
