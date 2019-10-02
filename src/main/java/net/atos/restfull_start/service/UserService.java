@@ -26,7 +26,19 @@ public class UserService {
     private RoleRepository roleRepository;
     @Autowired
     private MessageRepository messageRepository;
-
+    // zwraca liczbę rekordów
+    public Long countAllMessages(){
+        return messageRepository.count();
+    }
+    public Map<String,Integer> groupMessagesByUsers(){
+        Map<String, Integer> groupedMessages = new HashMap<>();
+        for(User user : userRepository.findAll()){
+            Integer messageCount = user.getMessages().size();
+            System.out.println(messageCount);
+            groupedMessages.put(user.getLogin(), messageCount);
+        }
+        return groupedMessages;
+    }
 
     public List<Message> getAllMessages(){
         return messageRepository.findAll();

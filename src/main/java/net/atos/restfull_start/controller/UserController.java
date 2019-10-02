@@ -41,6 +41,15 @@ public class UserController {
     12. Sprawdź ile jest wszystkich wiadomości
     13. Sprawdź ile wiadomości napisał każdy z userów
      */
+    @GetMapping("/messages/count")
+    public Long countMessages(){
+        return userService.countAllMessages();
+    }
+    @GetMapping("/messages/group")
+    public Map<String, Integer> groupMessages(){
+        return userService.groupMessagesByUsers();
+    }
+
     @GetMapping("/messages")
     public List<Message> getAllMessages(){
         return userService.getAllMessages();
