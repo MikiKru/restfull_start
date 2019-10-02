@@ -2,6 +2,7 @@ package net.atos.restfull_start.controller;
 
 import lombok.AllArgsConstructor;
 import net.atos.restfull_start.model.Message;
+import net.atos.restfull_start.model.Role;
 import net.atos.restfull_start.model.User;
 import net.atos.restfull_start.model.dtos.UserDto;
 import net.atos.restfull_start.service.RoleService;
@@ -98,15 +99,22 @@ public class UserController {
                 Link messageListLink = linkTo(methodOn(UserController.class).getMessagesForUser(user.getUser_id())).withRel("messageList");
                 user.add(messageListLink);
             }
+            if(user.getRoles().size() > 0){
+                for(Role role : user.getRoles()){
+                    role.add(linkTo(methodOn(RoleController.class).getRoleById(role.getRole_id())).withSelfRel());
+                }
+            }
         }
         Link link = linkTo(methodOn(UserController.class).getAllUsersSortedByLoginHATEOAS()).withSelfRel();
         Resources<User> userResources = new Resources<>(users, link);
         Link userLink = linkTo(methodOn(UserController.class).getUserByIdHATEOAS(null)).withRel("userLinkTempl");
         Link messageLink = linkTo(methodOn(UserController.class).getMessageById(null)).withRel("messageLinkTempl");
         Link messageListLink = linkTo(methodOn(UserController.class).getMessagesForUser(null)).withRel("messageListTempl");
+        Link roleLink = linkTo(methodOn(RoleController.class).getRoleById(null)).withRel("roleLinkTempl");
         userResources.add(userLink);
         userResources.add(messageLink);
         userResources.add(messageListLink);
+        userResources.add(roleLink);
         return userResources;
     }
 
