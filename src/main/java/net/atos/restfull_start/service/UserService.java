@@ -26,6 +26,13 @@ public class UserService {
     private RoleRepository roleRepository;
     @Autowired
     private MessageRepository messageRepository;
+
+    public User getUserById(Long user_id){
+        Optional<User> userOptinal = userRepository.findById(user_id);
+        return userOptinal.orElseGet(
+                () -> new User(null, null, null, null, null, null, null, null));
+    }
+
     // zwraca liczbę rekordów
     public Long countAllMessages(){
         return messageRepository.count();
@@ -49,11 +56,7 @@ public class UserService {
         return messagesPage.getContent();
     }
 
-    public User getUserById(Long user_id){
-        Optional<User> userOptinal = userRepository.findById(user_id);
-        return userOptinal.orElseGet(
-                () -> new User(null, null, null, null, null, null, null, null));
-    }
+
     public Message addMessage(String content,Long user_id){
         Message message=new Message(content);
         message.setUser(userRepository.getOne(user_id));

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message {
+public class Message extends ResourceSupport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long message_id;

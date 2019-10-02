@@ -7,9 +7,15 @@ import net.atos.restfull_start.model.dtos.UserDto;
 import net.atos.restfull_start.service.RoleService;
 import net.atos.restfull_start.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RequestMapping(value = "/api")
 @RestController
@@ -41,6 +47,34 @@ public class UserController {
     12. Sprawdź ile jest wszystkich wiadomości
     13. Sprawdź ile wiadomości napisał każdy z userów
      */
+    @GetMapping("/user/{user_id}")
+    public User getUserById(@PathVariable Long user_id){
+        return userService.getUserById(user_id);
+    }
+    @GetMapping(value = "/user/{user_id}/HATEOAS", produces = "application/hal+json")
+    public Resource<User> getUserByIdHATEOAS(@PathVariable Long user_id){
+        User user = userService.getUserById(user_id);
+        // ręczna konfiguracja lików
+//        Link userLink = new Link("localhost:8080/api/user/"+user_id+"/HATEOAS");
+        Link userLink = linkTo(
+                methodOn(UserController.class).getUserByIdHATEOAS(user_id))
+                .withSelfRel();
+        Link userLinkTemplate = linkTo(
+                methodOn(UserController.class).getUserByIdHATEOAS(null))
+                .withRel("userLinkTemplate");
+        // user extends ResourceSupport może przyjąć obiekt klasy Link
+        user.add(userLink);
+        user.add(userLinkTemplate);
+        // zwracam obiekt HATEOAS = data + href
+        return new Resource<User>(user);
+    }
+    @GetMapping("/users")
+    public List<User> getAllUsersSortedByLogin(){
+        return userService.getAllUsersSortedByLogin();
+    }
+
+
+
     @GetMapping("/messages/count")
     public Long countMessages(){
         return userService.countAllMessages();
@@ -91,10 +125,7 @@ public class UserController {
     public List<User> getActiveUsers(){
         return userService.getUsersWithStatusOrderedByregisterDate(true);
     }
-    @GetMapping("/users")
-    public List<User> getAllUsersSortedByLogin(){
-        return userService.getAllUsersSortedByLogin();
-    }
+
 
     @DeleteMapping("/delete/user/{user_id}")
     public ResponseEntity deleteUserById(@PathVariable Long user_id){

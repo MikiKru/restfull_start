@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.atos.restfull_start.model.enums.RoleEnum;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class Role extends ResourceSupport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long role_id;

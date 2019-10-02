@@ -4,6 +4,7 @@ package net.atos.restfull_start.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends ResourceSupport {             // klasa rozszerzająca dane o hiperłącza
     @Id                                                 // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long user_id;
