@@ -24,7 +24,20 @@ public class UserController {
     --------------------------------------------------------------
     3. Wypisz użytkowników posiadających role ROLE_ADMIN
     4. Wypisz użytkowników aktywnych posotrotwany po dacie rejestracji
+    --------------------------------------------------------------
+    5. Wyszukaj użytkownika po id
+    6. Wyszukaj rolę po id
+    7. Wyszukaj wiadomość po id
+    ---------------------------------------------------------------
+    8. Wyszukaj zbiór ról dla użytkownika o danym id
+    9. Wyszukaj listę wiadomości użytkownika
+    ---------------------------------------------------------------
+    10. Wyszukaj wiadomości stronicowane tj,  druga strona i stronicowanie co 2 szt
+    11. Zmodyfikuj content wiadomości wybranej po id
+    12. Sprawdź ile jest wszystkich wiadomości
      */
+
+
     @GetMapping("/userswithrole")
     public List<User> getUsersWithRole(@RequestParam Long role_id){
         // szukamy roli zidentyfikowanej po id, która jest dodana do listy ról

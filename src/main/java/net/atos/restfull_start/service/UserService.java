@@ -7,6 +7,9 @@ import net.atos.restfull_start.model.dtos.UserDto;
 import net.atos.restfull_start.repository.RoleRepository;
 import net.atos.restfull_start.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -52,6 +55,8 @@ public class UserService {
         return userRepository.findAllByRoles(role);
     }
     public List<User> getAllUsersOrderByLogin(){
+//        Page<User> pages = userRepository.findAll(PageRequest.of(0,2));
+//           System.out.println(pages);
         return userRepository.findAllByLoginLikeOrderByLogin("%");
     }
     public List<User> getUsersWithStatusOrderedByregisterDate(Boolean status){
