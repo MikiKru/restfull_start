@@ -1,7 +1,6 @@
 package net.atos.restfull_start.service;
 
 import lombok.AllArgsConstructor;
-import net.atos.restfull_start.model.AggregatedValue;
 import net.atos.restfull_start.model.Message;
 import net.atos.restfull_start.model.Role;
 import net.atos.restfull_start.model.User;
@@ -12,7 +11,6 @@ import net.atos.restfull_start.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
