@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.*;
-
+//@XmlRootElement
 @Entity                     // mapowanie ORM
 @Table(name = "user_table") // określenie nazwy tabeli w SQL
 @Data

@@ -52,7 +52,7 @@ public class UserController {
     12. Sprawdź ile jest wszystkich wiadomości
     13. Sprawdź ile wiadomości napisał każdy z userów
      */
-    @GetMapping("/nativeQuery/aggregated")
+    @GetMapping(value = "/nativeQuery/aggregated", produces = MediaType.APPLICATION_XML_VALUE)
     public List<String> getAggregatedValuesNativeQuery(){
         return userService.getAggregatedValuesNativeQuery();
     }
@@ -62,8 +62,12 @@ public class UserController {
         return userService.getAllMessagesCustomQuery();
     }
 
+    @GetMapping(value = "/users/{user_id}", produces = "application/hal+xml")
+    public User getUserByIdXML(@PathVariable Long user_id){
+        return userService.getUserById(user_id);
+    }
     // produkujemy format JSON
-    @GetMapping(value = "/user/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/user/{user_id}", produces = "application/json")
     public User getUserById(@PathVariable Long user_id){
         return userService.getUserById(user_id);
     }
@@ -71,6 +75,7 @@ public class UserController {
     @GetMapping(value = "/user/{user_id}")
     public Resource<User> getUserByIdHATEOAS(@PathVariable Long user_id){
         User user = userService.getUserById(user_id);
+        System.out.println("user" + user);
         // ręczna konfiguracja lików
 //        Link userLink = new Link("localhost:8080/api/user/"+user_id+"/HATEOAS");
         Link userLink = linkTo(
@@ -83,7 +88,7 @@ public class UserController {
         user.add(userLink);
         user.add(userLinkTemplate);
         // zwracam obiekt HATEOAS = data + href
-        return new Resource<User>(user);
+        return new Resource<>(user);
     }
     @GetMapping("/users")
     public List<User> getAllUsersSortedByLogin(){
@@ -102,7 +107,8 @@ public class UserController {
         List<User> users = userService.getAllUsersSortedByLogin();
         for(User user : users){
             // link do użytkownika
-            Link userLink = linkTo(methodOn(UserController.class).getUserByIdHATEOAS(user.getUser_id())).withSelfRel();
+            Link userLink = linkTo(methodOn(UserController.class)
+                    .getUserByIdHATEOAS(user.getUser_id())).withSelfRel();
             user.add(userLink);
             if(user.getMessages().size() > 0){
                 // link do wiadomości
